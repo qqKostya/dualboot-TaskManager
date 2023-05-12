@@ -9,7 +9,8 @@ class UserFilter(django_filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ('name',)
+        fields = ("name",)
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.order_by("id")
