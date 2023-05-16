@@ -12,6 +12,17 @@ class UserFilter(django_filters.FilterSet):
         fields = ("name",)
 
 
+class TaskViewSet(viewsets.ModelViewSet):
+    state = django_filters.CharFilter(lookup_expr="icontains")
+    tags = django_filters.CharFilter(lookup_expr="icontains")
+    executor = django_filters.CharFilter(lookup_expr="icontains")
+    author = django_filters.CharFilter(lookup_expr="icontains")
+
+    class Meta:
+        model = Tag
+        fields = ("state", "tags", "executor", "author")
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.order_by("id")
     serializer_class = UserSerializer
