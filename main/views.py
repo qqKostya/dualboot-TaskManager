@@ -14,5 +14,7 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    queryset = Task.objects.prefetch_related("tags").order_by("id")
+    queryset = Task.objects.prefetch_related("tags", "author", "executor").order_by(
+        "id"
+    )
     serializer_class = TaskSerializer
