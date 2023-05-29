@@ -15,7 +15,7 @@ class UserFilter(django_filters.FilterSet):
 
 class TaskViewSet(viewsets.ModelViewSet):
     state = django_filters.CharFilter(lookup_expr="icontains")
-    tags = django_filters.CharFilter(lookup_expr="icontains")
+    tags = django_filters.MultipleChoiceFilter(lookup_expr="icontains")
     executor = django_filters.CharFilter(lookup_expr="icontains")
     author = django_filters.CharFilter(lookup_expr="icontains")
 
@@ -36,6 +36,8 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    queryset = Task.objects.prefetch_related("tags").order_by("id")
+    queryset = Task.objects.prefetch_related("tags", "author", "executor").order_by(
+        "id"
+    )
     serializer_class = TaskSerializer
     permission_classes = [IsStaffOrReadOnly]
