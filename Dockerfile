@@ -26,10 +26,12 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && truncate -s 0 /var/log/*log
 
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+RUN curl -sSL https://install.python-poetry.org > install-poetry.py \
+    && python install-poetry.py \
+    && rm install-poetry.py
 ENV PATH /root/.local/bin:$PATH
 
-ENV PATH $PATH:/root/.poetry/bin
+
 
 RUN poetry config virtualenvs.create false
 
