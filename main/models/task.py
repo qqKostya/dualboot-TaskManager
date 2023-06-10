@@ -22,7 +22,7 @@ class Task(models.Model):
     description = models.TextField(blank=True)
     date_creation = models.DateTimeField(auto_now_add=True)
     date_change = models.DateTimeField(auto_now=True)
-    deadline = models.DateTimeField()
+    deadline = models.DateTimeField(null=True)
     state = models.CharField(max_length=255, choices=State.choices, default=State.NEW)
     priority = models.CharField(
         max_length=255, choices=Priority.choices, default=Priority.LOW

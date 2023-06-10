@@ -16,7 +16,9 @@ class TaskPermissionTests(APITestCase):
             username="staffuser", password="testpassword", is_staff=True
         )
 
-        self.task = Task.objects.create(title="Test Task", author=self.user)
+        self.task = Task.objects.create(
+            title="Test Task", author=self.user, executor=self.staff_user
+        )
 
     def test_delete_task_staff(self):
         self.client.login(username="staffuser", password="testpassword")
