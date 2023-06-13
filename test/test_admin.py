@@ -45,5 +45,5 @@ class TestAdmin(APITestCase):
         self.assert_forms(Tag, tag.id)
 
     def test_task(self) -> None:
-        task = Task.objects.create()
+        task = Task.objects.create(author=self.admin, executor=self.admin)
         self.assert_forms(Task, task.id)
