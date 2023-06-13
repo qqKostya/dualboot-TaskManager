@@ -4,7 +4,7 @@ from django.urls import path, reverse
 from freezegun import freeze_time
 from rest_framework.test import APITestCase
 
-from .factories import UserFactory
+from .factories import UserJWTFactory
 
 
 class TestJWTAuth(APITestCase):
@@ -13,8 +13,8 @@ class TestJWTAuth(APITestCase):
     any_api_url = "http://localhost:8000/api/users/"
 
     @staticmethod
-    def create_user() -> UserFactory:
-        return UserFactory.create()
+    def create_user() -> UserJWTFactory:
+        return UserJWTFactory.create()
 
     def token_request(self, username: str = None, password: str = "password"):
         client = self.client_class()
