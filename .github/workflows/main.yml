@@ -17,8 +17,9 @@ jobs:
     environment: for_coveralls
     steps:
       - uses: actions/checkout@v2
-      - name: Run tests
+      - uses: actions/setup-python@v1
+      - name: Unit tests
         env:
           COVERAGE: true
-          RAILS_ENV: test
+          DJANGO_ENV: test
         run: docker-compose --file docker-compose.ci.yml run --rm api make test
