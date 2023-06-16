@@ -3,14 +3,15 @@ version: "3.7"
 x-app-config: &app-config
   DJANGO_ENV: dev
   DJANGO_SECRET_KEY: secret_key
+  COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
 
 x-db-config: &db-config
   DATABASE_NAME: postgres
   DATABASE_USER: postgres
-  DATABASE_PASSWORD: pgpassword
+  DATABASE_PASSWORD: postgres
   DATABASE_HOST: db
   DATABASE_PORT: 5432
-  POSTGRES_PASSWORD: pgpassword
+  POSTGRES_PASSWORD: postgres
 
 services:
   api:
