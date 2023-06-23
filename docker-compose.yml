@@ -12,14 +12,16 @@ services:
     depends_on:
       - db
     environment: &api-environment
-      DJANGO_ENV: dev
-      DJANGO_SECRET_KEY: secret_key
-      DATABASE_NAME: postgres
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: postgres
-      DATABASE_HOST: db
-      DATABASE_PORT: 5432
-    command: python manage.py runserver 0.0.0.0:8000
+      - NEW_RELIC_CONFIG_FILE=newrelic.ini
+      - DJANGO_ENV=dev
+      - DJANGO_SECRET_KEY=secret_key
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - ROLLBAR_TOKEN=eb887fc3e37342a5b2f76538545333be
+    command: newrelic-admin run-program python manage.py runserver 0.0.0.0:8000
 
   db:
     image: postgres:11.4

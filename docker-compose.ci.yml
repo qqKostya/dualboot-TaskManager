@@ -4,6 +4,7 @@ x-app-config: &app-config
   DJANGO_ENV: dev
   DJANGO_SECRET_KEY: secret_key
   COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
+  ROLLBAR_TOKEN: ad0e321584cb49768909a73b15100fa7
 
 x-db-config: &db-config
   DATABASE_NAME: postgres
