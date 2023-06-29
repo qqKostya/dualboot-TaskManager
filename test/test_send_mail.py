@@ -7,23 +7,24 @@ from main.models import Task
 from task_manager.services.mail import send_assign_notification
 from test.base import TestViewSetBase
 
+from test.factories import UserFactory, BaseTaskFactory
+
 
 class TestSendEmail(TestViewSetBase):
-    basename = 'tasks'
     @patch.object(mail, "send_mail")
     def test_send_assign_notification(self, fake_sender: MagicMock) -> None:
-        assignee = self.create_api_user
-        task = self.create(assignee)
+        executor = UserFactory.create()
+        task = BaseTaskFactory.create(executor=executor)
 
-        send_assign_notification(task["id"])
+        send_assign_notification(task.id)
 
         fake_sender.assert_called_once_with(
-            subject="You've assigned a task.",
+            subject="You've assigned a task.",  # Updated subject
             message="",
             from_email=None,
-            recipient_list=[assignee.email],
+            recipient_list=[executor.email],
             html_message=render_to_string(
                 "emails/notification.html",
-                context={"task": Task.objects.get(pk=task["id"])},
+                context={"task": Task.objects.get(pk=task.id)},
             ),
         )
