@@ -3,6 +3,7 @@ from .models import User
 from .models import Task
 from .models import Tag
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
