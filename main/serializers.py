@@ -18,15 +18,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = (
+        fields = [
             "id",
             "username",
             "first_name",
             "last_name",
             "email",
             "role",
+            "date_of_birth",
+            "phone",
             "avatar_picture",
-        )
+        ]
 
 
 class TaskSerializer(serializers.ModelSerializer):

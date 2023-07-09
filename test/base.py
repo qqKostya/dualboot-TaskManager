@@ -39,3 +39,9 @@ class TestViewSetBase(APITestCase):
         response = self.client.post(self.list_url(args), data=data, format=format)
         assert response.status_code == HTTPStatus.CREATED, response.content
         return response.data
+
+    def update(self, data: dict, id: int = None) -> dict:
+        self.client.force_authenticate(self.user)
+        response = self.client.patch(self.detail_url(id), data=data, format="json")
+        assert response.status_code == HTTPStatus.OK, response.content
+        return response.data

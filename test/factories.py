@@ -1,14 +1,43 @@
-from main.models.task import Task
 import factory
-from factory.django import DjangoModelFactory
 from faker import Faker
-from main.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
+from faker.providers import BaseProvider
+from main.models.task import Task
+from main.models.user import User
+from factory.django import DjangoModelFactory
 
-fake = Faker()
+
+faker = Faker()
+
+
+class ImageFileProvider(BaseProvider):
+    def image_file(self, fmt: str = "jpeg") -> SimpleUploadedFile:
+        return SimpleUploadedFile(
+            self.generator.file_name(extension=fmt),
+            self.generator.image(image_format=fmt),
+        )
+
+
+faker.add_provider(ImageFileProvider)
 
 
 class UserFactory(DjangoModelFactory):
-    username = factory.LazyAttribute(lambda _: fake.unique.user_name())
+    username = factory.LazyAttribute(lambda _: faker.user_name())
+    first_name = factory.LazyAttribute(lambda _: faker.first_name())
+    last_name = factory.LazyAttribute(lambda _: faker.last_name())
+    email = factory.LazyAttribute(lambda _: faker.unique.email())
+    role = factory.LazyAttribute(
+        lambda _: faker.word(
+            ext_word_list=[
+                "developer",
+                "manager",
+                "admin",
+            ]
+        )
+    )
+    date_of_birth = factory.LazyAttribute(lambda _: faker.date())
+    phone = factory.LazyAttribute(lambda _: faker.unique.msisdn())
+    avatar_picture = factory.LazyAttribute(lambda _: faker.unique.image_file("jpeg"))
 
     class Meta:
         model = User
@@ -22,9 +51,8 @@ class UserJWTFactory(UserFactory):
     password = factory.PostGenerationMethodCall("set_password", "password")
 
 
-from faker import Faker
-
-faker = Faker()
+class UserAvatarFactory(UserFactory):
+    avatar_picture = SimpleUploadedFile("large.jpg", b"x" * 2 * 1024 * 1024)
 
 
 class BaseTaskFactory(factory.django.DjangoModelFactory):
