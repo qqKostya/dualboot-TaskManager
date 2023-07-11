@@ -1,3 +1,4 @@
+from typing import cast
 from rest_framework import viewsets
 import django_filters
 from task_manager.services.single_resource import (
