@@ -1,5 +1,9 @@
 from rest_framework import viewsets
 import django_filters
+from task_manager.services.single_resource import (
+    SingleResourceMixin,
+    SingleResourceUpdateMixin,
+)
 from .models import User, Tag, Task
 from .serializers import UserSerializer, TagSerializer, TaskSerializer
 from .permissions import IsStaffOrReadOnly
@@ -41,3 +45,13 @@ class TaskViewSet(viewsets.ModelViewSet):
     )
     serializer_class = TaskSerializer
     permission_classes = [IsStaffOrReadOnly]
+
+
+class CurrentUserViewSet(
+    SingleResourceMixin, SingleResourceUpdateMixin, viewsets.ModelViewSet
+):
+    serializer_class = UserSerializer
+    queryset = User.objects.order_by("id")
+
+    def get_object(self) -> User:
+        return cast(User, self.request.user)

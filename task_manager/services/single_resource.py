@@ -29,7 +29,7 @@ class SingleResourceMixin(BaseViewMixinBaseClass):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
-    
+
 
 class SingleResourceUpdateMixin(BaseViewMixinBaseClass):
     def bulk_update(self, request: Request, *_: Any, **kwargs: Any) -> Response:
